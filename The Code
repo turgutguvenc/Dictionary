@@ -1,0 +1,51 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jan  5 21:24:55 2021
+
+@author: turgu
+"""
+"""
+English Dictionary
+"""
+
+import json
+
+from difflib import get_close_matches
+
+data = json.load(open("data.json"))
+
+def translate(word):
+    # Translating the given word in the data.json file 
+    # Finding closest meaning the given word
+    
+    word = word.lower()
+    
+    if word in data:
+        return data[word]
+    elif word.title() in data:
+        return data[word.title()]
+    elif word.upper() in data:
+        return data[word.upper()]
+    elif len(get_close_matches(word, data.keys())) > 0:
+        print("Did you mean %s instead" %get_close_matches(word, data.keyskis())[0])
+        decide = input("Press 'Y' for Yes or 'N' for No! : ")
+        if decide.lower() == 'y':
+            return data[get_close_matches(word, data.keys())[0]]
+        elif decide.lower() == 'n':
+            return "The word did't exist in dictionary"
+        else:
+            return "You have entered wrong input please enter 'N' or 'Y'! "
+       
+    
+
+word = input("Enter the word you want to search: ")
+
+output = translate(word)
+
+if type(output) == list:
+    for item in output:
+        print(item)
+        
+else:
+    print(output)        
+    
